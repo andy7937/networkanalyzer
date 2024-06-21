@@ -51,6 +51,7 @@ int main() {
     printDeviceList();
 
     // Specify the network device to capture packets from
+    // example - const char* device = "\\Device\\NPF_{00247F45-FDC6-49D8-930B-5983567D12D8}";
     const char* device = "YOUR_NETWORK_DEVICE"; // Replace with your actual network device name
 
     try {
