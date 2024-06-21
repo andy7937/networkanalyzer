@@ -25,7 +25,7 @@ private:
     void handleIPv6UDPPacket(const struct IPv6Header* IPv6Header);
     void handleIPv6TCPPacket(const struct IPv6Header* IPv6Header);
     void handleIPv6ICMPPacket(const struct IPv6Header* IPv6Header);
-    void handleIPv6UnknownIPvProtocol(uint8_t protocol);
+    void handleIPv6UnknownProtocol(const struct IPv6Header* IPv6Header);
 };
 
 #endif // IPV4_H

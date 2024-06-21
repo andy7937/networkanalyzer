@@ -1,4 +1,4 @@
-This project was started to gain an understanding of how network analysis is done, specifically through capturing network packages and analysing these packages to understand what information is being sent through the network.
+This project was started to gain an understanding of how network analysis is done, specifically through capturing network packets and analysing these packets to understand what information is being sent through the network.
 
 using npcap to capture packages - https://npcap.com/
 
@@ -52,4 +52,4 @@ The ethernet header tells us how to interpret the rest of the file
 The protocol refers to how the data is processed at the transport layer
 
 
-control shift b to build
+Some good resources for understanding pcap functions - https://www.tcpdump.org/pcap.html

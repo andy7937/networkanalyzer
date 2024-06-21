@@ -27,7 +27,7 @@ private:
     void handleIPv4UDPPacket(const IPv4Header* IPv4Header);
     void handleIPv4TCPPacket(const IPv4Header* IPv4Header);
     void handleIPv4ICMPPacket(const IPv4Header* IPv4Header);
-    void handleIPv4UnknownProtocol(uint8_t protocol);
+    void handleIPv4UnknownProtocol(const IPv4Header* IPv4Header);
 };
 
 #endif // IPV4_H
