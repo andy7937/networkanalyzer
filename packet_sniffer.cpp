@@ -60,11 +60,11 @@ void PacketSniffer::packetEtherHandler(u_char* userData, const struct pcap_pkthd
     switch (ether_type) {
     case 0x0800: // IPv4
         std::cout << "Packet is IPv4" << std::endl;
-        ipv4Processor.handleIPv4Packet(packet);
+        ipv4Processor.handleIPv4Packet(packet, pkthdr);
         break;
     case 0x86DD: // IPv6
         std::cout << "Packet is IPv6" << std::endl;
-        ipv6Processor.handleIPv6Packet(packet);
+        ipv6Processor.handleIPv6Packet(packet, pkthdr);
         break;
     case 0x0806: // ARP
         std::cout << "Packet is ARP" << std::endl;

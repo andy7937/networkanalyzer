@@ -19,13 +19,13 @@ struct IPv6Header {
 
 class IPv6 {
 public:
-    void handleIPv6Packet(const u_char* packet);
+    void handleIPv6Packet(const u_char* packet, const struct pcap_pkthdr* pkthdr);
 
 private:
-    void handleIPv6UDPPacket(const struct IPv6Header* IPv6Header);
-    void handleIPv6TCPPacket(const struct IPv6Header* IPv6Header);
-    void handleIPv6ICMPPacket(const struct IPv6Header* IPv6Header);
-    void handleIPv6UnknownProtocol(const struct IPv6Header* IPv6Header);
+    void handleIPv6UDPPacket(const u_char* packet, const struct pcap_pkthdr* pkthdr);
+    void handleIPv6TCPPacket(const u_char* packet, const struct pcap_pkthdr* pkthdr);
+    void handleIPv6ICMPPacket(const u_char* packet, const struct pcap_pkthdr* pkthdr);
+    void handleIPv6UnknownProtocol(const u_char* packet, const struct pcap_pkthdr* pkthdr);
 };
 
 #endif // IPV4_H
