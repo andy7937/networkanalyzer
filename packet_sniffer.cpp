@@ -44,6 +44,7 @@ void PacketSniffer::startSniffing() {
     while ((packet = pcap_next(handle, &header)) != nullptr) {
         std::cout << "Captured a packet with length of [" << header.len << "]" << std::endl;
         packetEtherHandler(nullptr, &header, packet);
+        std::cout << "" << std::endl;
     } // Register packetEtherHandler as callback
 
 }

@@ -2,10 +2,36 @@
 #include "packet_sniffer.h"
 #include <iostream>
 #include <unordered_set>
+#include <unordered_map>
 #include <string>
 #include <ws2tcpip.h> 
 #include <iphlpapi.h> 
 #include <pcap.h>       
+
+// List of common ports
+std::unordered_map<u_short, std::string> commonUDPPorts = {
+    {53, "DNS"},
+    {67, "DHCP (Server)"},
+    {68, "DHCP (Client)"},
+    {80, "HTTP"},
+    {123, "NTP"},
+    {161, "SNMP"},
+    {162, "SNMP Trap"},
+    {443, "HTTPS"},
+    {500, "IKE (IPsec)"},
+    {520, "RIP"},
+    {1900, "SSDP"},
+    {2095, "Webmail"},
+    {2096, "Webmail SSL"},
+    {3306, "MySQL"},
+    {4500, "IPsec NAT Traversal"}
+};
+
+// List of common IP addresses
+std::unordered_set<u_short> commonIPaddrs = {
+};
+
+
 
 void IPv4::handleIPv4Packet(const u_char* packet, const struct pcap_pkthdr* pkthdr) {
     // Parse the protocol by adding length of the etherHead
@@ -65,42 +91,49 @@ void IPv4::handleIPv4UDPPacket(const u_char* packet, const struct pcap_pkthdr* p
     int ipHeaderLength = (IPv4Header->ip_vhl & 0x0F) * 4; // Calculate IP header length
     int udpHeaderOffset = 14 + ipHeaderLength; // 14 is the Ethernet header length
 
-    // Check if it's a UDP packet and extract source and destination ports
-    if (IPv4Header->ip_p == IPPROTO_UDP) {
-        int udpHeaderOffset = 14 + ipHeaderLength; // 14 is the Ethernet header length
+    // Extract UDP header fields
+    u_short udpSrcPort = ntohs(*(u_short*)&packet[udpHeaderOffset]);
+    u_short udpDstPort = ntohs(*(u_short*)&packet[udpHeaderOffset + 2]);
 
-        // Extract UDP header fields
-        u_short udpSrcPort = ntohs(*(u_short*)&packet[udpHeaderOffset]);
-        u_short udpDstPort = ntohs(*(u_short*)&packet[udpHeaderOffset + 2]);
+    // Assuming payload starts right after UDP header
+    int payloadOffset = udpHeaderOffset + 8; // UDP header is 8 bytes
 
-        // Print source and destination ports
-        std::cout << "Source Port: " << udpSrcPort << ", Destination Port: " << udpDstPort << std::endl;
-
-        // Assuming payload starts right after UDP header
-        int payloadOffset = udpHeaderOffset + 8; // UDP header is 8 bytes
-
-        // Print payload (assuming it contains domain-like data)
-        std::string payload;
-        for (int i = payloadOffset; i < pkthdr->len; ++i) {
-            if (isprint(packet[i])) {
-                payload += packet[i];
-            }
-            else {
-                payload += '.';
-            }
+    // Print payload (assuming it contains domain-like data)
+    std::string payload;
+    for (int i = payloadOffset; i < pkthdr->len; ++i) {
+        if (isprint(packet[i])) {
+            payload += packet[i];
         }
+        else {
+            payload += '.';
+        }
+    }
 
-        std::cout << "Payload: " << payload << std::endl;
-     }
+    std::cout << "Payload: " << payload << std::endl;
+     
     
 
     // checking for spoofed IP addresses
 
-    // checking for uncommon ports
+    // checking for uncommon src ports
+    if (commonUDPPorts.find(udpSrcPort) != commonUDPPorts.end()) {
+        std::cout << "Src Port " << udpSrcPort << " is commonly used for " << commonUDPPorts[udpSrcPort] << std::endl;
+    }
+    else {
+        std::cout << "Uncommon src Port Detected: " << udpSrcPort << std::endl;
+    }
 
-    // checking for unusual protocols
+    // checking for uncommon dst ports
+    if (commonUDPPorts.find(udpDstPort) != commonUDPPorts.end()) {
+        std::cout << "Dst Port " << udpDstPort << " is commonly used for " << commonUDPPorts[udpDstPort] << std::endl;
+    }
+    else {
+        std::cout << "Uncommon dst Port Detected: " << udpDstPort << std::endl;
+    }
 
-    // checking for known attack signatures
+
+    // checking for known attack signatures (would need to decrypt the payload based on the protocol used
+
 
     // checking for suspicious strings
 
