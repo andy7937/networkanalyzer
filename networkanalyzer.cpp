@@ -1,6 +1,7 @@
 #include <pcap.h>
 #include <iostream>
 #include "packet_sniffer.h"
+#include "Logger.h"
 
 // printing device list
 void printDeviceList() {
@@ -63,7 +64,9 @@ int main() {
     try {
         // Create a PacketSniffer object
         PacketSniffer sniffer(device_name);
+        Logger logger;
 
+        logger.initLog();
         // Start capturing packets
         sniffer.startSniffing();
     }

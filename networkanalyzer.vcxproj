@@ -139,12 +139,14 @@
   <ItemGroup>
     <ClCompile Include="IPv4.cpp" />
     <ClCompile Include="IPv6.cpp" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="networkanalyzer.cpp" />
     <ClCompile Include="packet_sniffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IPv4.h" />
     <ClInclude Include="IPv6.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="packet_sniffer.h" />
   </ItemGroup>
   <ItemGroup>

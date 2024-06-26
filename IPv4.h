@@ -1,6 +1,6 @@
 #ifndef IPV4_H
 #define IPV4_H
-
+#include "Logger.h"
 #include <pcap.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>  // Include this for IPv6 related definitions
@@ -28,6 +28,7 @@ private:
     void handleIPv4TCPPacket(const u_char* packet, const struct pcap_pkthdr* pkthdr);
     void handleIPv4ICMPPacket(const u_char* packet, const struct pcap_pkthdr* pkthdr);
     void handleIPv4UnknownProtocol(const u_char* packet, const struct pcap_pkthdr* pkthdr);
+    Logger logger; // Reference to Logger object
 };
 
 #endif // IPV4_H

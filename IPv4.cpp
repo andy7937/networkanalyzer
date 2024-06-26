@@ -1,5 +1,7 @@
 #include "IPv4.h"
 #include "packet_sniffer.h"
+#include "Logger.h"
+
 #include <iostream>
 #include <unordered_set>
 #include <unordered_map>
@@ -110,8 +112,8 @@ void IPv4::handleIPv4UDPPacket(const u_char* packet, const struct pcap_pkthdr* p
     }
 
     std::cout << "Payload: " << payload << std::endl;
-     
-    
+
+
 
     // checking for spoofed IP addresses
 
@@ -138,10 +140,8 @@ void IPv4::handleIPv4UDPPacket(const u_char* packet, const struct pcap_pkthdr* p
     // checking for suspicious strings
 
     // log these packets, and do an overall security check, as this only checks for individual packets. There may be patterns on the overall packet signatures depending on where it is being sent and how many is coming through
-
-
-
-
+    logger.appendLog("Source IP: " + std::string(sourceIP));
+    logger.newLog();
 }
 
 void IPv4::handleIPv4TCPPacket(const u_char* packet, const struct pcap_pkthdr* pkthdr) {
@@ -152,6 +152,6 @@ void IPv4::handleIPv4ICMPPacket(const u_char* packet, const struct pcap_pkthdr* 
 
 }
 
-void IPv4::handleIPv4UnknownProtocol(const u_char* packet, const struct pcap_pkthdr* pkthdr){
+void IPv4::handleIPv4UnknownProtocol(const u_char* packet, const struct pcap_pkthdr* pkthdr) {
 
 }
