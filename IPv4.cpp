@@ -38,6 +38,7 @@ std::unordered_set<u_short> commonIPaddrs = {
 void IPv4::handleIPv4Packet(const u_char* packet, const struct pcap_pkthdr* pkthdr) {
     // Parse the protocol by adding length of the etherHead
     const struct IPv4Header* IPv4Header = (const struct IPv4Header*)(packet + sizeof(struct etherHeader));
+    logger.appendTimeStamp();
 
     // Determine protocol inside packet
     switch (IPv4Header->ip_p) {
@@ -140,7 +141,7 @@ void IPv4::handleIPv4UDPPacket(const u_char* packet, const struct pcap_pkthdr* p
     // checking for suspicious strings
 
     // log these packets, and do an overall security check, as this only checks for individual packets. There may be patterns on the overall packet signatures depending on where it is being sent and how many is coming through
-    logger.appendLog("Source IP: " + std::string(sourceIP));
+    logger.appendLog("Source IP: " + std::string(sourceIP) + " - Transport Protocol: UDP" + " - Packet Length: " + std::to_string(pkthdr->len) + " - Src Port: " + std::to_string(udpSrcPort) + " - Dst Port: " + std::to_string(udpDstPort));
     logger.newLog();
 }
 

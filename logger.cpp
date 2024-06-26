@@ -19,7 +19,7 @@ void Logger::initLog() {
     }
 }
 
-void Logger::appendLog(const std::string& info) {
+void Logger::appendTimeStamp() {
     std::ofstream logFile("log.txt", std::ios::out | std::ios::app);
 
     if (logFile.is_open()) {
@@ -32,6 +32,20 @@ void Logger::appendLog(const std::string& info) {
         std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", &timeInfo);
 
         logFile << timestamp << "\n";
+        logFile.close();
+    }
+    else {
+        std::cerr << "Error appending to file" << std::endl;
+    }
+}
+
+
+
+void Logger::appendLog(const std::string& info) {
+    std::ofstream logFile("log.txt", std::ios::out | std::ios::app);
+
+    if (logFile.is_open()) {
+
         logFile << info << "\n";
         logFile.close();
     }

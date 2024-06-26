@@ -10,6 +10,7 @@ public:
     void initLog();
     void appendLog(const std::string& info);
     void newLog();
+    void appendTimeStamp();
 };
 
 #endif // LOGGER_H
